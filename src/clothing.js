@@ -14,3 +14,16 @@ export function getAllClothing(req,res) {
     }) 
     .catch(err => res.status(500).send({ success: false, message: err}))
 }
+export async function UpdateClothing(req,res){
+    const { clothingId } =req.params
+    const db = dbConnect()
+    await db.collection('clothing')
+    .findOneAndUpdate({ _id: new ObjectId(clothingId) }, { $set: req.body })
+    .catch(err => {
+        res.status(500).send(err)
+        return
+    })
+    res.status(200).send({ message: "updated"})
+
+}
+
